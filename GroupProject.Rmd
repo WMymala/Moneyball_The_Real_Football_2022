@@ -1,0 +1,42 @@
+---
+title: "Group Project"
+author: "Hugo Moncada"
+date: "3/30/2022"
+output: pdf_document
+---
+
+This data of international data was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and our data should be most representative of data based on the month of April 2022. 
+
+Question: How much influence does international caps have on player value based on the best 6 teams in Europe? 
+
+We chose only European teams primarily due to regional/cultural similarities and convenience.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+MoneyballData = read.csv("Moneyball Soccer Dataset.csv")
+```
+
+
+```{r}
+names(MoneyballData) = c("Players","Nationality","Club","Position","Value","Wage","Caps")
+attach(MoneyballData)
+```
+
+
+* Players - Player name (First Last)
+
+* Nationality - Country that a player plays for internationally through FIFA
+
+* Club - Team that a player plays for 
+
+* Position - The primary position of a player: goalkeeper (GK), defender (DF), midfielder (MF), or forward (FW)
+
+* Position - What a player should theoretically sell for in the transfer market if another team wanted to buy the player based on transfermarkt.us (in € and in millions). Value is primarily based on a player's age, potential, skill, in-game performance, and much more. For more detail on how transfermarkt determines value, read https://www.transfermarkt.co.in/transfermarkt-market-value-explained-how-is-it-determined-/view/news/385100.
+
+* Wage - Amount of money a player earns (in € and in thousands) via salarysport.com. 
+
+* Caps - Amount of international games a player has played for their country (only applies if player participates in the game and does not count if they just get called up and sits on the bench)
+
