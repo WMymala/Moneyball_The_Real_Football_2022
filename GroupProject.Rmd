@@ -72,5 +72,103 @@ plot
 
 We see that the variances of the factor level means look similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). Some further inspections would be needed to check the equal variance assumption.
 
+$H_0: Var(ε_{1.})=Var(ε_{2.})=Var(ε_{3}.)=Var(ε_{4}.)$ for Value, Wage and Caps respectively 
+
+$H_A: Var(ε_{1.})≠Var(ε_{2.})≠Var(ε_{3}.)≠Var(ε_{4}.)$/some combination of $Var(e_{ij})$s are different from each others for Value, Wage and Caps respectively 
+```{r}
+# Brown-Forsythe for Value
+ValueBelgium = MoneyballData[1:25,5]
+ValueEngland = MoneyballData[26:50,5]
+ValueFrance = MoneyballData[51:75,5]
+ValueGermany = MoneyballData[76:100,5]
+ValueItaly = MoneyballData[101:127,5]
+ValueSpain = MoneyballData[128:151,5]
+
+n1 = length(ValueBelgium)
+n2 = length(ValueEngland)
+n3 = length(ValueFrance)
+n4 = length(ValueGermany)
+n5 = length(ValueItaly)
+n6 = length(ValueSpain)
+nT = n1+n2+n3+n4+n5+n6
+
+## Test for equal variance: Brown-Forsythe
+Y = c(ValueBelgium,ValueEngland,ValueFrance,ValueGermany,ValueItaly, ValueSpain)
+Ymedian = c(rep(median(ValueBelgium),n1), rep(median(ValueEngland),n2), rep(median(ValueFrance),n3), rep(median(ValueGermany),n4), rep(median(ValueItaly),n5), rep(median(ValueSpain),n6)) ## medians for each Yij
+d = abs(Y - Ymedian) ## dij's for each observation; observation - median of group observation apart of
+dhat = c(rep(mean(d[1:n1]),n1), rep(mean(d[(n1+1):(n1+n2)]),n2), rep(mean(d[(n1+n2+1):(n1+n2+n3)]),n3), rep(mean(d[(n1+n2+n3+1):(n1+n2+n3+n4)]),n4), rep(mean(d[(n1+n2+n3+n4+1): (n1+n2+n3+n4+n5)]),n5), rep(mean(d[(n1+n2+n3+n4+n5+1):nT]),n6)) # mean dij's of observations in all 6 groups
+SSE_BF = sum((d-dhat)^2)
+SSTR_BF = sum((dhat-mean(d))^2)
+MSTR_BF = SSTR_BF/3
+MSE_BF = SSE_BF/(nT-4)
+TestStat = MSTR_BF/MSE_BF 
+TestStat 
+qf(0.95,5,nT-6) ## critical value
+```
+|TestStat| ≤ Critical Value, so we fail to reject $H_0$ at significance level α = .05. At α = .05, we observe that all our country's value error variances are equal.
+
+```{r}
+# Brown-Forsythe for Wage
+WageBelgium = MoneyballData[1:25,6]
+WageEngland = MoneyballData[26:50,6]
+WageFrance = MoneyballData[51:75,6]
+WageGermany = MoneyballData[76:100,6]
+WageItaly = MoneyballData[101:127,6]
+WageSpain = MoneyballData[128:151,6]
+
+n1 = length(WageBelgium)
+n2 = length(WageEngland)
+n3 = length(WageFrance)
+n4 = length(WageGermany)
+n5 = length(WageItaly)
+n6 = length(WageSpain)
+nT = n1+n2+n3+n4+n5+n6
+
+## Test for equal variance: Brown-Forsythe
+Y = c(WageBelgium,WageEngland,WageFrance,WageGermany,WageItaly, WageSpain)
+Ymedian = c(rep(median(WageBelgium),n1), rep(median(WageEngland),n2), rep(median(WageFrance),n3), rep(median(WageGermany),n4), rep(median(WageItaly),n5), rep(median(WageSpain),n6)) ## medians for each Yij
+d = abs(Y - Ymedian) ## dij's for each observation; observation - median of group observation apart of
+dhat = c(rep(mean(d[1:n1]),n1), rep(mean(d[(n1+1):(n1+n2)]),n2), rep(mean(d[(n1+n2+1):(n1+n2+n3)]),n3), rep(mean(d[(n1+n2+n3+1):(n1+n2+n3+n4)]),n4), rep(mean(d[(n1+n2+n3+n4+1): (n1+n2+n3+n4+n5)]),n5), rep(mean(d[(n1+n2+n3+n4+n5+1):nT]),n6)) # mean dij's of observations in all 6 groups
+SSE_BF = sum((d-dhat)^2)
+SSTR_BF = sum((dhat-mean(d))^2)
+MSTR_BF = SSTR_BF/3
+MSE_BF = SSE_BF/(nT-4)
+TestStat = MSTR_BF/MSE_BF 
+TestStat 
+qf(0.95,5,nT-6) ## critical value
+```
+|TestStat| > Critical Value, so we  reject $H_0$ at significance level α = .05. At α = .05, we observe that all our country's wage error variances are not equal, although the |TestStat| and Critical Value are really close in value to each other.
+
+```{r}
+# Brown-Forsythe for Caps
+CapsBelgium = MoneyballData[1:25,7]
+CapsEngland = MoneyballData[26:50,7]
+CapsFrance = MoneyballData[51:75,7]
+CapsGermany = MoneyballData[76:100,7]
+CapsItaly = MoneyballData[101:127,7]
+CapsSpain = MoneyballData[128:151,7]
+
+n1 = length(CapsBelgium)
+n2 = length(CapsEngland)
+n3 = length(CapsFrance)
+n4 = length(CapsGermany)
+n5 = length(CapsItaly)
+n6 = length(CapsSpain)
+nT = n1+n2+n3+n4+n5+n6
+
+## Test for equal variance: Brown-Forsythe
+Y = c(CapsBelgium,CapsEngland,CapsFrance,CapsGermany,CapsItaly, CapsSpain)
+Ymedian = c(rep(median(CapsBelgium),n1), rep(median(CapsEngland),n2), rep(median(CapsFrance),n3), rep(median(CapsGermany),n4), rep(median(CapsItaly),n5), rep(median(CapsSpain),n6)) ## medians for each Yij
+d = abs(Y - Ymedian) ## dij's for each observation; observation - median of group observation apart of
+dhat = c(rep(mean(d[1:n1]),n1), rep(mean(d[(n1+1):(n1+n2)]),n2), rep(mean(d[(n1+n2+1):(n1+n2+n3)]),n3), rep(mean(d[(n1+n2+n3+1):(n1+n2+n3+n4)]),n4), rep(mean(d[(n1+n2+n3+n4+1): (n1+n2+n3+n4+n5)]),n5), rep(mean(d[(n1+n2+n3+n4+n5+1):nT]),n6)) # mean dij's of observations in all 6 groups
+SSE_BF = sum((d-dhat)^2)
+SSTR_BF = sum((dhat-mean(d))^2)
+MSTR_BF = SSTR_BF/3
+MSE_BF = SSE_BF/(nT-4)
+TestStat = MSTR_BF/MSE_BF 
+TestStat 
+qf(0.95,5,nT-6) ## critical value
+```
+|TestStat| > Critical Value, so we  reject $H_0$ at significance level α = .05. At α = .05, we observe that all our country's caps error variances are not equal, although the |TestStat| and Critical Value are really close in value to each other.
 
 
