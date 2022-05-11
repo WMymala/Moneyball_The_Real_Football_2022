@@ -40,3 +40,37 @@ attach(MoneyballData)
 
 * Caps - Amount of international games a player has played for their country (only applies if player participates in the game and does not count if they just get called up and sits on the bench)
 
+In order to check whether we can use linear regression for our data, we need to check 4 assumptions (will learn these in STA 106 and STA 108): https://sphweb.bumc.bu.edu/otlt/MPH-Modules/BS/R/R5_Correlation-Regression/R5_Correlation-Regression4.html
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+# Dot Plot to test for Equal Variance (value, wage and caps)
+
+# value
+plot <- ggplot(MoneyballData, aes(x=Nationality, y=Value, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
+  geom_dotplot(binaxis='y', stackdir='center', binwidth = 5) + stat_summary(fun=median, geom="point", shape=18,
+                 size=5, color="red")
+plot
+
+# wage
+plot <- ggplot(MoneyballData, aes(x=Nationality, y=Wage, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
+  geom_dotplot(binaxis='y', stackdir='center', binwidth = 13) + stat_summary(fun=median, geom="point", shape=18,
+                 size=5, color="red")
+plot
+
+# caps
+plot <- ggplot(MoneyballData, aes(x=Nationality, y=Caps, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
+  geom_dotplot(binaxis='y', stackdir='center', binwidth = 6) + stat_summary(fun=median, geom="point", shape=18,
+                 size=5, color="red")
+plot
+```
+
+We see that the variances of the factor level means look similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). Some further inspections would be needed to check the equal variance assumption.
+
+
+
