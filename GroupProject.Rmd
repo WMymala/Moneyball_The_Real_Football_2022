@@ -21,8 +21,9 @@ MoneyballData = read.csv("Moneyball Soccer Dataset.csv")
 
 
 ```{r}
-names(MoneyballData) = c("Players","Nationality","Club","Position","Value","Wage","Caps")
+names(MoneyballData) = c("Players","Nationality","Club","Position","Age","Value","Wage","Caps")
 attach(MoneyballData)
+MoneyballData[9:13] <- list(NULL)
 ```
 
 
@@ -33,6 +34,8 @@ attach(MoneyballData)
 * Club - Team that a player plays for 
 
 * Position - The primary position of a player: goalkeeper (GK), defender (DF), midfielder (MF), or forward (FW)
+
+* Age - How old a player is at the time of taking our data
 
 * Position - What a player should theoretically sell for in the transfer market if another team wanted to buy the player based on transfermarkt.us (in € and in millions). Value is primarily based on a player's age, potential, skill, in-game performance, and much more. For more detail on how transfermarkt determines value, read https://www.transfermarkt.co.in/transfermarkt-market-value-explained-how-is-it-determined-/view/news/385100.
 
@@ -51,22 +54,22 @@ library(ggplot2)
 ```{r}
 # Dot Plot to test for Equal Variance (value, wage and caps)
 
-# value
-plot <- ggplot(MoneyballData, aes(x=Nationality, y=Value, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
-  geom_dotplot(binaxis='y', stackdir='center', binwidth = 5) + stat_summary(fun=median, geom="point", shape=18,
-                 size=5, color="red")
+# age
+plot <- ggplot(MoneyballData, aes(x=Nationality, y=Age, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
+  geom_dotplot(binaxis='y', stackdir='center', binwidth = 1) + stat_summary(fun=median, geom="point", shape=18,
+                 size=5, color="pink")
 plot
 
 # wage
 plot <- ggplot(MoneyballData, aes(x=Nationality, y=Wage, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
   geom_dotplot(binaxis='y', stackdir='center', binwidth = 13) + stat_summary(fun=median, geom="point", shape=18,
-                 size=5, color="red")
+                 size=5, color="pink")
 plot
 
 # caps
 plot <- ggplot(MoneyballData, aes(x=Nationality, y=Caps, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
   geom_dotplot(binaxis='y', stackdir='center', binwidth = 6) + stat_summary(fun=median, geom="point", shape=18,
-                 size=5, color="red")
+                 size=5, color="pink")
 plot
 ```
 
@@ -76,13 +79,13 @@ $H_0: Var(ε_{1.})=Var(ε_{2.})=Var(ε_{3}.)=Var(ε_{4}.)$ for Value, Wage and C
 
 $H_A: Var(ε_{1.})≠Var(ε_{2.})≠Var(ε_{3}.)≠Var(ε_{4}.)$/some combination of $Var(e_{ij})$s are different from each others for Value, Wage and Caps respectively 
 ```{r}
-# Brown-Forsythe for Value
-ValueBelgium = MoneyballData[1:25,5]
-ValueEngland = MoneyballData[26:50,5]
-ValueFrance = MoneyballData[51:75,5]
-ValueGermany = MoneyballData[76:100,5]
-ValueItaly = MoneyballData[101:127,5]
-ValueSpain = MoneyballData[128:151,5]
+# Brown-Forsythe for Age
+AgeBelgium = MoneyballData[1:25,5]
+AgeEngland = MoneyballData[26:50,5]
+AgeFrance = MoneyballData[51:75,5]
+AgeGermany = MoneyballData[76:100,5]
+AgeItaly = MoneyballData[101:127,5]
+AgeSpain = MoneyballData[128:151,5]
 
 n1 = length(ValueBelgium)
 n2 = length(ValueEngland)
@@ -109,12 +112,12 @@ qf(0.95,5,nT-6) ## critical value
 
 ```{r}
 # Brown-Forsythe for Wage
-WageBelgium = MoneyballData[1:25,6]
-WageEngland = MoneyballData[26:50,6]
-WageFrance = MoneyballData[51:75,6]
-WageGermany = MoneyballData[76:100,6]
-WageItaly = MoneyballData[101:127,6]
-WageSpain = MoneyballData[128:151,6]
+WageBelgium = MoneyballData[1:25,7]
+WageEngland = MoneyballData[26:50,7]
+WageFrance = MoneyballData[51:75,7]
+WageGermany = MoneyballData[76:100,7]
+WageItaly = MoneyballData[101:127,7]
+WageSpain = MoneyballData[128:151,7]
 
 n1 = length(WageBelgium)
 n2 = length(WageEngland)
@@ -137,16 +140,16 @@ TestStat = MSTR_BF/MSE_BF
 TestStat 
 qf(0.95,5,nT-6) ## critical value
 ```
-|TestStat| > Critical Value, so we  reject $H_0$ at significance level α = .05. At α = .05, we observe that all our country's wage error variances are not equal, although the |TestStat| and Critical Value are really close in value to each other.
+|TestStat| > Critical Value, so we  reject $H_0$ at significance level α = .05. At α = .05, we observe that all our country's wage error variances are not equal.
 
 ```{r}
 # Brown-Forsythe for Caps
-CapsBelgium = MoneyballData[1:25,7]
-CapsEngland = MoneyballData[26:50,7]
-CapsFrance = MoneyballData[51:75,7]
-CapsGermany = MoneyballData[76:100,7]
-CapsItaly = MoneyballData[101:127,7]
-CapsSpain = MoneyballData[128:151,7]
+CapsBelgium = MoneyballData[1:25,8]
+CapsEngland = MoneyballData[26:50,8]
+CapsFrance = MoneyballData[51:75,8]
+CapsGermany = MoneyballData[76:100,8]
+CapsItaly = MoneyballData[101:127,8]
+CapsSpain = MoneyballData[128:151,8]
 
 n1 = length(CapsBelgium)
 n2 = length(CapsEngland)
