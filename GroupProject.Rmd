@@ -1,5 +1,5 @@
 ---
-title: "Group Project"
+title: "Moneyball Soccer Group"
 author: "Hugo Moncada"
 date: "3/30/2022"
 output:
@@ -78,7 +78,7 @@ plot
 We see that the variances of the factor level means look similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). 
 
 ```{r}
-
+table(MoneyballData$Nationality)
 ```
 
 
