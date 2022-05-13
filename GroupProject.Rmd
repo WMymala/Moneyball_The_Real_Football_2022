@@ -11,22 +11,23 @@ This data of international data was collected between February 16th, 2022 and Ap
 
 Question: How much influence does international caps have on player value based on the best 6 teams in Europe? 
 
-We chose only European teams primarily due to regional/cultural similarities and convenience.
+We chose only European teams and independent variables due to regional/cultural similarities and convenience.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
 
-```{r}
+```{r, message=FALSE}
 MoneyballData = read.csv("Moneyball Soccer Dataset.csv")
-```
-
-
-```{r}
 names(MoneyballData) = c("Players","Nationality","Club","Position","Age","Value","Wage","Caps")
 attach(MoneyballData)
 MoneyballData[9:13] <- list(NULL)
+ MoneyballData <- MoneyballData[-c(152:183), ]
+ MoneyballData <- MoneyballData %>% 
+  arrange(Nationality, factor(Position, levels = c('FW', 'MF', 'DF', 'GK')))
 ```
+
 
 
 * Players - Player name (First Last)
@@ -45,16 +46,11 @@ MoneyballData[9:13] <- list(NULL)
 
 * Caps - Amount of international games a player has played for their country (only applies if player participates in the game and does not count if they just get called up and sits on the bench)
 
-In order to check whether we can use linear regression for our data, we need to check 4 assumptions (will learn these in STA 141): https://www.godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
+In order to check whether we can use linear regression for our data, we need to check some assumptions (will learn these in STA 141): https://www.godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
 
-```{r}
-library(tidyverse)
-library(dplyr)
-library(ggplot2)
-```
 
-```{r}
-# Dot Plot tosee Equal Variance (value, wage and caps)
+```{r,warning=FALSE}
+# Dot Plot to see Equal Variance (value, wage and caps)
 
 # age
 plot <- ggplot(MoneyballData, aes(x=Nationality, y=Age, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
@@ -75,10 +71,27 @@ plot <- ggplot(MoneyballData, aes(x=Nationality, y=Caps, fill = Nationality)) + 
 plot
 ```
 
-We see that the variances of the factor level means look similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). 
+We see that the variances of the factor level means look a little similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). 
 
 ```{r}
-table(MoneyballData$Nationality)
+attach(MoneyballData)
+modelall <- lm(Value ~ Age + Wage + Caps)
+summary(modelall)
+par(mfrow=c(2,2))
+plot(modelall)
 ```
 
+```{r}
+modelwocaps <- lm(Value ~ Age + Wage)
+summary(modelwocaps)
+par(mfrow=c(2,2))
+plot(modelwocaps)
+```
+
+```{r}
+modelcaps <- lm(Value ~ Caps)
+summary(modelcaps)
+par(mfrow=c(2,2))
+plot(modelcaps)
+```
 
