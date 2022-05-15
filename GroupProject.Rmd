@@ -78,20 +78,27 @@ attach(MoneyballData)
 modelall <- lm(Value ~ Age + Wage + Caps)
 summary(modelall)
 par(mfrow=c(2,2))
-plot(modelall)
+plot(modelall) # Pattern in residual plot (Larger variance as fitted gets larger) but residual errors have mean value of zero, Normally distributed based on Q-Q plot, Errors have constant variance based on Scale-Location. Mbappe looks like a high leverage point based on Residuals vs Leverage.
 ```
 
 ```{r}
 modelwocaps <- lm(Value ~ Age + Wage)
 summary(modelwocaps)
 par(mfrow=c(2,2))
-plot(modelwocaps)
+plot(modelwocaps) # same conclusions as modelall
 ```
 
 ```{r}
 modelcaps <- lm(Value ~ Caps)
 summary(modelcaps)
 par(mfrow=c(2,2))
-plot(modelcaps)
+plot(modelcaps) # bad Residuals vs. Fitted (Pattern in residual plot (smaller variance as fitted gets larger and residual errors have mean value not zero)
 ```
 
+```{r}
+# correlation matrix
+library(psych)
+pairs.panels(MoneyballData[5:8])
+```
+
+Conclusion: Caps are not important in determining player value value for the best 6 teams in Europe. 
