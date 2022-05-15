@@ -1,13 +1,13 @@
 ---
 title: "Moneyball Soccer Group"
-author: "Hugo Moncada"
+author: "Moneyball Soccer Group: Harry Kim, Hugo Moncada, Alexa Aguirre, Eric Sun, Thomas Venner, Walter Mymala"
 date: "3/30/2022"
 output:
   html_document:
     df_print: paged
 ---
 
-This data of international data was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and our data should be most representative of data based on the month of April 2022. 
+This data of international data was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and our data should be most representative of national team setups based on November 2021 and data based on April 2022. 
 
 Question: How much influence does international caps have on player value based on the best 6 teams in Europe? 
 
@@ -98,7 +98,17 @@ plot(modelcaps) # bad Residuals vs. Fitted (Pattern in residual plot (smaller va
 ```{r}
 # correlation matrix
 library(psych)
-pairs.panels(MoneyballData[5:8])
+pairs.panels(MoneyballData[4:8])
 ```
 
-Conclusion: Caps are not important in determining player value value for the best 6 teams in Europe. 
+Conclusion: It's hard to determine if there is statistically significant correlation between player value and international caps and the linear regression models we tried determined that caps are not all that important to determining player value for the best 6 teams in Europe. We can see that through our linear regressions. The caps variable in modelall shows that the caps variable isn't statistically significant since it has 0 stars in the summary function and the $R^2$ of modelcaps is very low.
+
+For example, Marc-Andre ter Stegen, German goalkeeper that has
+kept the goal for Barcelona over five years hasn’t consistently represented Germany due to his competition, Manuel Neuer, one of the finest goalkeepers of our generation. ter Stegen, who at
+the age of 29, has just begun getting regular appearances with Die Mannschaft, has substantially less international caps compared to Neuer who has accumulated 109 caps, making entrance into the elite century club. At the age of 36, Neuer is still considered one of the
+best goalkeepers in the world. Player value doesn’t have to be related to international caps, although in some cases, correlation may seem to be existent. In addition, there are lots of
+factors that go into determining a player’s value, one of which may be the player’s international caps, believe it or not. It may be a better idea to use international caps as one of many predictor variables to determine a player’s value.
+
+**Add ggplots of how positions and nationality affect player value!!**
+
+
