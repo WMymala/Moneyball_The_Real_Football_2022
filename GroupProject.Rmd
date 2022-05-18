@@ -96,7 +96,7 @@ par(mfrow=c(2,2))
 plot(modelcaps) # bad Residuals vs. Fitted (Pattern in residual plot (smaller variance as fitted gets larger and residual errors have mean value not zero)
 ```
 
-```{r}
+```{r, message=F}
 # correlation matrix
 library(psych)
 pairs.panels(MoneyballData[4:8])
@@ -106,14 +106,29 @@ Conclusion: It's hard to determine if there is statistically significant correla
 
 Even without statistical data, caps not being highly correlated to player value makes sense in real life. Other aspects such as potential (player ceilings), work rate, hype, player nationality, and many other factors determine value better than international caps. Caps are not the greatest indicator since the best of a country's players play and that causes the second best player in that position to not get caps in favor of the best player. For example, think of the second string players who play behind Lionel Messi and Cristiano Ronaldo. These players are great in their own right, but they are overshadowed by the greater player. We were not able to get a perfect model to determine player value, but player age and player wage makes up 46% of the predicting power to estimate player value, very nice.
 
-**Add ggplots of how positions and nationality affect player value!!**
-
 We also have the independent variable of player position in our data. Player position is also a factor that determines player value. The plot with the Position variable messes up the Residuals vs. Fitted so instead of using Position in our model since it messes up our linear regression, we will use plots to determine how postion affects value.
 
-```{r}
+```{r, message=F, echo = F}
+# bubble chart for 4-D data where variables can be both numerical or categorical
+position_select <- MoneyballData[MoneyballData$Position %in% c("FW", "MF", "DF", "GK"), ]
 
+# Scatterplot
+theme_set(theme_bw())  
+g <- ggplot(position_select, aes(Caps, Value)) + 
+  labs(subtitle="Top 6 European Teams",
+       title="Bubble chart")
+
+par(mfrow=c(1,2))
+g + geom_jitter(aes(col=Position, shape=Nationality)) 
+
+# with linear regression line
+g + geom_jitter(aes(col=Position, shape=Nationality)) + 
+  geom_smooth(aes(col=Position), method="lm", se=F)
 ```
 
+As we can see with the bubble chart, we can see once again that caps is not a good indicator for determining a player's transfer value.
 
+```{r, ref.label=knitr::all_labels(),echo=TRUE,eval=FALSE}
+```
 
 
