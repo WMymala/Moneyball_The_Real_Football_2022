@@ -9,7 +9,7 @@ output:
 
 This data of international data was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and our data should be most representative of national team setups based on November 2021 and data based on April 2022. 
 
-Question: How much influence does international caps have on player value based on the best 6 teams in Europe? We have created a dataset for a total of 126 players, which mostly consist of players included in the latest international team setups(November 2021) of five
+Question: How much influence does international caps have on a player's transfer value based on the best 6 teams in Europe? We have created a dataset for a total of 126 players, which mostly consist of players included in the latest international team setups(November 2021) of five
 European national teams, Spain, England, France, Germany, and Italy.
 
 We chose only European teams and independent variables due to regional/cultural similarities and convenience.
@@ -21,15 +21,16 @@ library(tidyverse)
 
 ```{r, message=FALSE}
 MoneyballData = read.csv("Moneyball Soccer Dataset.csv")
-names(MoneyballData) = c("Players","Nationality","Club","Position","Age","Value","Wage","Caps")
 attach(MoneyballData)
-MoneyballData[9:13] <- list(NULL)
- MoneyballData <- MoneyballData[-c(152:183), ]
+# editing our dataset to extract data from
+names(MoneyballData) = c("Players","Nationality","Club","Position","Age","Value","Wage","Caps") 
+MoneyballData[9:13] <- list(NULL) # Remove some columns
+ MoneyballData <- MoneyballData[-c(152:183), ] # Remove some rows
  MoneyballData <- MoneyballData %>% 
-  arrange(Nationality, factor(Position, levels = c('FW', 'MF', 'DF', 'GK')))
+  arrange(Nationality, factor(Position, levels = c('FW', 'MF', 'DF', 'GK'))) # rearrange dataset for more user friendliness
 ```
 
-
+Variables:
 
 * Players - Player name (First Last)
 
@@ -41,13 +42,17 @@ MoneyballData[9:13] <- list(NULL)
 
 * Age - How old a player is at the time of taking our data
 
-* Position - What a player should theoretically sell for in the transfer market if another team wanted to buy the player based on transfermarkt.us (in € and in millions). Value is primarily based on a player's age, potential, skill, in-game performance, and much more. For more detail on how transfermarkt determines value, read https://www.transfermarkt.co.in/transfermarkt-market-value-explained-how-is-it-determined-/view/news/385100.
+<span style="color: blue;">
+* Value (aka Transfer Value) - What a player should theoretically sell for in the transfer market if another team wanted to buy the player based on transfermarkt.us (in € and in millions). Value is primarily based on a player's age, potential, skill, in-game performance, and much more. 
+
+For more detail on how transfermarkt determines value, read https://www.transfermarkt.co.in/transfermarkt-market-value-explained-how-is-it-determined-/view/news/385100.
+</span>
 
 * Wage - Amount of money a player earns (in € and in thousands) via salarysport.com. 
 
 * Caps - Amount of international games a player has played for their country (only applies if player participates in the game and does not count if they just get called up and sits on the bench)
 
-In order to check whether we can use linear regression for our data, we need to check some assumptions (will learn these in STA 141): https://www.godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
+In order to check whether we can use linear regression for our data, we need to check some assumptions (assumptions learned from STA 141A at UCD): https://www.godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
 
 
 ```{r,warning=FALSE}
@@ -106,7 +111,7 @@ Conclusion: It's hard to determine if there is statistically significant correla
 
 Even without statistical data, caps not being highly correlated to player value makes sense in real life. Other aspects such as potential (player ceilings), work rate, hype, player nationality, and many other factors determine value better than international caps. Caps are not the greatest indicator since the best of a country's players play and that causes the second best player in that position to not get caps in favor of the best player. For example, think of the second string players who play behind Lionel Messi and Cristiano Ronaldo. These players are great in their own right, but they are overshadowed by the greater player. We were not able to get a perfect model to determine player value, but player age and player wage makes up 46% of the predicting power to estimate player value, very nice.
 
-We also have the independent variable of player position in our data. Player position is also a factor that determines player value. The plot with the Position variable messes up the Residuals vs. Fitted so instead of using Position in our model since it messes up our linear regression, we will use plots to determine how postion affects value.
+We also have the independent variable of player position in our data. Player position is also a factor that determines player value. The plot with the Position variable messes up the Residuals vs. Fitted so instead of using Position in our model since it messes up our linear regression, we will use plots to determine how position affects value.
 
 ```{r, message=F, echo = F}
 # bubble chart for 4-D data where variables can be both numerical or categorical
@@ -122,11 +127,17 @@ par(mfrow=c(1,2))
 g + geom_jitter(aes(col=Position, shape=Nationality)) 
 
 # with linear regression line
+
+theme_set(theme_bw())  
+g <- ggplot(position_select, aes(Caps, Value)) + 
+  labs(subtitle="Top 6 European Teams",
+       title="Bubble chart with linear regression line")
+
 g + geom_jitter(aes(col=Position, shape=Nationality)) + 
   geom_smooth(aes(col=Position), method="lm", se=F)
 ```
 
-As we can see with the bubble chart, we can see once again that caps is not a good indicator for determining a player's transfer value.
+As we can see with the bubble charts, we have more evidence to back up our claim that caps is not a good indicator for determining a player's transfer value.
 
 ```{r, ref.label=knitr::all_labels(),echo=TRUE,eval=FALSE}
 ```
