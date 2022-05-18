@@ -9,7 +9,8 @@ output:
 
 This data of international data was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and our data should be most representative of national team setups based on November 2021 and data based on April 2022. 
 
-Question: How much influence does international caps have on player value based on the best 6 teams in Europe? 
+Question: How much influence does international caps have on player value based on the best 6 teams in Europe? We have created a dataset for a total of 126 players, which mostly consist of players included in the latest international team setups(November 2021) of five
+European national teams, Spain, England, France, Germany, and Italy.
 
 We chose only European teams and independent variables due to regional/cultural similarities and convenience.
 ```{r setup, include=FALSE}
@@ -101,14 +102,18 @@ library(psych)
 pairs.panels(MoneyballData[4:8])
 ```
 
-Conclusion: It's hard to determine if there is statistically significant correlation between player value and international caps and the linear regression models we tried determined that caps are not all that important to determining player value for the best 6 teams in Europe. We can see that through our linear regressions. The caps variable in modelall shows that the caps variable isn't statistically significant since it has 0 stars in the summary function and the $R^2$ of modelcaps is very low.
+Conclusion: It's hard to determine if there is statistically significant correlation between player value and international caps. The linear regression models and correlation matrix we used  determined that caps are not all that important to determining player value for the best 6 teams in Europe. The caps variable in modelall shows that the caps variable isn't statistically significant since it has 0 stars in the summary function. The $R^2$ of modelcaps is very low since it's the model that excludes the more important variables for determining player value.
 
-For example, Marc-Andre ter Stegen, German goalkeeper that has
-kept the goal for Barcelona over five years hasn’t consistently represented Germany due to his competition, Manuel Neuer, one of the finest goalkeepers of our generation. ter Stegen, who at
-the age of 29, has just begun getting regular appearances with Die Mannschaft, has substantially less international caps compared to Neuer who has accumulated 109 caps, making entrance into the elite century club. At the age of 36, Neuer is still considered one of the
-best goalkeepers in the world. Player value doesn’t have to be related to international caps, although in some cases, correlation may seem to be existent. In addition, there are lots of
-factors that go into determining a player’s value, one of which may be the player’s international caps, believe it or not. It may be a better idea to use international caps as one of many predictor variables to determine a player’s value.
+Even without statistical data, caps not being highly correlated to player value makes sense in real life. Other aspects such as potential (player ceilings), work rate, hype, player nationality, and many other factors determine value better than international caps. Caps are not the greatest indicator since the best of a country's players play and that causes the second best player in that position to not get caps in favor of the best player. For example, think of the second string players who play behind Lionel Messi and Cristiano Ronaldo. These players are great in their own right, but they are overshadowed by the greater player. We were not able to get a perfect model to determine player value, but player age and player wage makes up 46% of the predicting power to estimate player value, very nice.
 
 **Add ggplots of how positions and nationality affect player value!!**
+
+We also have the independent variable of player position in our data. Player position is also a factor that determines player value. The plot with the Position variable messes up the Residuals vs. Fitted so instead of using Position in our model since it messes up our linear regression, we will use plots to determine how postion affects value.
+
+```{r}
+
+```
+
+
 
 
