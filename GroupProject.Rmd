@@ -12,11 +12,12 @@ This data of international teams was collected between February 16th, 2022 and A
 Question: How much influence does international caps have on a player's transfer value based on the best 6 teams in Europe? We have created a dataset for a total of 126 players, which mostly consist of players included in the latest international team setups(November 2021) of five
 European national teams, Spain, England, France, Germany, and Italy. In collecting data for our numerical variables, we used reliable sources such as soccerdatabase, transfermarkt, and we used salarysport for collecting information on wages for the players included in our study. We chose only European teams and independent variables due to regional/cultural similarities and convenience.
 
+What is a cap, why did we choose it, and how is it significant?: International caps is a football/soccer term to describe a player logging playing time for their international team during a game. Only the best players will be called up to be able to represent the country. Basically, a cap allows you to become a representative of your country for the most popular sport in the world. They are a big deal in the sport as it is regarded as one of the highest honors so this was one of the subconscious reasons why our group chose this variable of interest to test.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
-
 
 ```{r, message=FALSE, echo=FALSE}
 MoneyballData = read.csv("Moneyball Soccer Dataset.csv")
