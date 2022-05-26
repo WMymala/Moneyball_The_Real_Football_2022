@@ -54,7 +54,7 @@ For more detail on how transfermarkt determines value, read https://www.transfer
 
 In order to check whether we can use linear regression for our data, we need to check some assumptions and we start with checking for equal variance. (assumptions learned from STA 141A at UCD): https://www.godatadrive.com/blog/basic-guide-to-test-assumptions-of-linear-regression-in-r
 
-```{r,warning=FALSE, echo=FALSE}
+```{r,warning=FALSE, echo = F}
 # Dot Plots to see Equal Variance (value, wage and caps)
 # Eaual variance is used to study equality of r population variances. If the r error variances σ_i^2 are equal, so will the expected values of the absolute deviations. Unequal error variances imply differing expected values of the absolute deviations 
 
@@ -62,19 +62,19 @@ In order to check whether we can use linear regression for our data, we need to 
 plot1 <- ggplot(MoneyballData, aes(x=Nationality, y=Age, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
   geom_dotplot(binaxis='y', stackdir='center', binwidth = 1) + stat_summary(fun=median, geom="point", shape=18,
                  size=5, color="pink") 
-plot
+plot1
 
 # wage
 plot2 <- ggplot(MoneyballData, aes(x=Nationality, y=Wage, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
   geom_dotplot(binaxis='y', stackdir='center', binwidth = 13) + stat_summary(fun=median, geom="point", shape=18,
                  size=5, color="pink") 
-plot
+plot2
 
 # caps
 plot3 <- ggplot(MoneyballData, aes(x=Nationality, y=Caps, fill = Nationality)) + scale_fill_manual(values=c("#FDDA24", "#FFFFFF", "#0072BB", "#000000", "#007CC3", "#E60026")) +
   geom_dotplot(binaxis='y', stackdir='center', binwidth = 6) + stat_summary(fun=median, geom="point", shape=18,
                  size=5, color="pink") 
-plot
+plot3
 ```
 
 We see that the variances of the factor level means look a little similar for each variable. While given small number of observations, the variation in the dotplots of each group's observations seems similar (might be randomness). We move on to check if there's linear relationship, residual errors having mean of 0 and constant variance, and normal distribution.  
