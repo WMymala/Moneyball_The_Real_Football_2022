@@ -5,7 +5,7 @@ date: "3/30/2022"
 output:
   html_document:
     df_print: paged
----
+--- 
 
 This data of international teams was collected between February 16th, 2022 and April 23, 2022. Thank you Harry Kim for filling out most of the data and finishing in April. Please not that data is constantly changing through time, and ou r data should be most representative of national team setups based on November 2021 and data based on April 2022. 
 
