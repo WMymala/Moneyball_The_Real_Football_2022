@@ -101,7 +101,7 @@ par(mfrow=c(2,2))
 plot(modelcaps) # bad Residuals vs. Fitted (Pattern in residual plot (smaller variance as fitted gets larger and residual errors have mean value not zero)
 ```
 
-We can set up a correlation matrix to see if there are correlations between our variable of interest **Value** and its independent variable.  counterparts. We can also use it to see how these inepdent variables affect one another as well. We can see Age and Caps are highly correlated to each other.
+We can set up a correlation matrix to see if there are correlations between our variable of interest **Value** and their independent variable counterparts. We can also use it to see how these indepedent variables affect one another as well. We can see Age and Caps are highly correlated to each other.
 
 ```{r, message=F, echo=F}
 # correlation matrix between variables
