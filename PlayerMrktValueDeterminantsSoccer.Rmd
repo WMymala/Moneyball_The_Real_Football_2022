@@ -1,5 +1,5 @@
 ---
-title: "Soccer Player Market Value Determinants (Moneyball Club at UC Davis)"
+title: "Market Value Determinants for Soccer Players (Moneyball Club at UC Davis)"
 author: "Moneyball Soccer Group: Walter Mymala, Harry Kim, Hugo Moncada, Alexa Aguirre, Eric Sun, Thomas Venner"
 date: "3/30/2022"
 output:
